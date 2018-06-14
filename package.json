@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/jabacchetta/set-random-interval#readme",
   "scripts": {
-    "clean": "rimraf build",
+    "clean": "rimraf dist",
     "lint": "eslint src --ignore-pattern '**/*.test.js'",
     "test": "jest",
     "test:watch": "jest --watch --notify",
