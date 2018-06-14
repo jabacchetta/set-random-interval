@@ -1,0 +1,136 @@
+{
+  "name": "set-random-interval",
+  "description": "An adaptation of JavaScript's native setInterval() function, allowing for random intervals.",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "author": "Jason Bacchetta",
+  "license": "MIT",
+  "keywords": [
+    "javascript",
+    "setInterval",
+    "random",
+    "animations",
+    "game-development"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jabacchetta/set-random-interval.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jabacchetta/set-random-interval/issues"
+  },
+  "homepage": "https://github.com/jabacchetta/set-random-interval#readme",
+  "scripts": {
+    "clean": "rimraf build",
+    "lint": "eslint src --ignore-pattern '**/*.test.js'",
+    "test": "jest",
+    "test:watch": "jest --watch --notify",
+    "test:coverage": "jest --coverage",
+    "config": "webpack --config tools/webpack/webpack.config.js",
+    "bundle": "npm run config -- --mode production",
+    "dev": "npm run config -- --mode development --watch --progress --display-error-details",
+    "build": "BABEL_ENV=es babel src --out-dir dist",
+    "prepare": "npm run clean && npm run build"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "eslint --fix --ignore-pattern '**/*.test.js'",
+        "jest --bail --findRelatedTests",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "**/frameworks/**/*.js"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.17.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "husky": "^0.14.3",
+    "jest": "^23.1.0",
+    "lint-staged": "^7.2.0",
+    "prettier-eslint": "^8.8.1",
+    "webpack": "^4.12.0",
+    "webpack-cli": "^3.0.6"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": "airbnb-base",
+    "globals": {
+      "cc": true,
+      "ccui": true
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "jest": true
+    },
+    "rules": {
+      "no-console": "off",
+      "no-confusing-arrow": "off",
+      "no-return-assign": "off",
+      "global-require": "off",
+      "import/no-named-as-default": "off",
+      "import/prefer-default-export": "off",
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
+      "object-curly-newline": [
+        "error",
+        {
+          "multiline": true
+        }
+      ]
+    }
+  },
+  "jest": {
+    "bail": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "json",
+      "json-summary",
+      "lcov"
+    ],
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|cur)$": "<rootDir>/src/lib/mocks/FileMock.js"
+    }
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "stage-2"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 100
+  }
+}
