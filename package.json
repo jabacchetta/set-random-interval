@@ -1,7 +1,7 @@
 {
   "name": "set-random-interval",
   "description": "An adaptation of JavaScript's native setInterval() function, allowing for random intervals.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "author": "Jason Bacchetta",
   "license": "MIT",
