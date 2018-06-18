@@ -1,6 +1,6 @@
 # setRandomInterval
 
-setRandomInterval is an adaptation of [JavaScript's native `setInterval()` function](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval), allowing for random intervals to be passed through as the delay argument.
+setRandomInterval is an adaptation of [JavaScript's native `setInterval()` function](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval), allowing for a min/max range to be passed through as the delay, which is then used to invoke the callback at random intervals within the given range.
 
 ## Purpose
 
