@@ -24,6 +24,6 @@ const callback = () => console.log('callback executed');
 // pass in callback, minimum delay (milliseconds), maximum delay (milliseconds)
 const interval = setRandomInterval(callback, 1000, 5000);
 
-// clear the interval if/when you'd like (in this case, we clear after 30 seconds)
-setTimeout(interval.clear, 30000);
+// clear the interval if/when you'd like (in this case, we clear after 10 seconds)
+setTimeout(interval.clear, 10000);
 ```
