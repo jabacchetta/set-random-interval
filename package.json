@@ -1,8 +1,12 @@
 {
   "name": "set-random-interval",
   "description": "An adaptation of JavaScript's native setInterval() function, allowing for random intervals.",
-  "version": "1.0.1",
-  "main": "dist/index.js",
+  "version": "1.1.0",
+  "main": "dist/main.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "author": "Jason Bacchetta",
   "license": "MIT",
   "keywords": [
@@ -21,82 +25,146 @@
   },
   "homepage": "https://github.com/jabacchetta/set-random-interval#readme",
   "scripts": {
-    "clean": "rimraf dist",
-    "lint": "eslint src --ignore-pattern '**/*.test.js'",
-    "test": "jest",
-    "test:watch": "jest --watch --notify",
-    "test:coverage": "jest --coverage",
-    "config": "webpack --config tools/webpack/webpack.config.js",
-    "bundle": "npm run config -- --mode production",
-    "dev": "npm run config -- --mode development --watch --progress --display-error-details",
-    "build": "BABEL_ENV=es babel src --out-dir dist",
-    "prepare": "npm run clean && npm run build"
+    "clean": "cross-env rimraf dist",
+    "lint": "cross-env eslint --ext .js,.ts src",
+    "types": "cross-env tsc",
+    "types-strict": "cross-env tsc --strict",
+    "types:watch": "cross-env npm run types -- --watch",
+    "test": "cross-env jest --passWithNoTests",
+    "test:watch": "cross-env jest --passWithNoTests --watch --notify",
+    "test:coverage": "cross-env jest --coverage",
+    "config": "cross-env webpack --config tools/webpack/webpack.config.ts",
+    "bundle": "cross-env npm run config -- --mode production",
+    "dev": "cross-env npm run config -- --mode development --watch --progress --display-error-details",
+    "prepare": "cross-env npm run clean && npm run bundle && npm run types"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
-    "linters": {
-      "*.js": [
-        "eslint --fix --ignore-pattern '**/*.test.js'",
-        "jest --bail --findRelatedTests",
-        "git add"
-      ]
-    },
-    "ignore": [
-      "**/frameworks/**/*.js"
+    "*.{js,ts}": [
+      "eslint --fix src/",
+      "tsc --noEmit src/",
+      "jest --bail --findRelatedTests",
+      "git add"
     ]
   },
   "dependencies": {
-    "lodash": "^4.17.5"
+    "typescript": "^3.6.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-lodash": "^3.3.4",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.12.0",
-    "husky": "^0.14.3",
-    "jest": "^23.1.0",
-    "lint-staged": "^7.2.0",
-    "prettier-eslint": "^8.8.1",
-    "webpack": "^4.12.0",
-    "webpack-cli": "^3.0.6"
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/jest": "^24.0.9",
+    "@types/node": "^11.9.5",
+    "@types/webpack": "^4.4.25",
+    "@typescript-eslint/eslint-plugin": "^2.3.1",
+    "@typescript-eslint/parser": "^2.3.1",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^6.0.0",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-airbnb-typescript": "^5.0.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.17.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-unicorn": "^12.0.1",
+    "husky": "^3.0.7",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.4.0",
+    "prettier": "^1.18.2",
+    "ts-node": "^8.4.1",
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9"
   },
   "eslintConfig": {
-    "parser": "babel-eslint",
-    "extends": "airbnb-base",
-    "globals": {
-      "cc": true,
-      "ccui": true
-    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "eslint-comments",
+      "jest",
+      "promise",
+      "unicorn"
+    ],
+    "extends": [
+      "airbnb-typescript/base",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:eslint-comments/recommended",
+      "plugin:jest/recommended",
+      "plugin:promise/recommended",
+      "plugin:unicorn/recommended"
+    ],
     "env": {
       "browser": true,
       "node": true,
       "jest": true
     },
     "rules": {
-      "no-console": "off",
-      "no-confusing-arrow": "off",
-      "no-return-assign": "off",
-      "global-require": "off",
-      "import/no-named-as-default": "off",
-      "import/prefer-default-export": "off",
-      "import/no-extraneous-dependencies": [
+      "func-names": [
+        "error",
+        "as-needed"
+      ],
+      "no-console": [
         "error",
         {
-          "devDependencies": true
+          "allow": [
+            "warn",
+            "error",
+            "assert"
+          ]
         }
       ],
-      "object-curly-newline": [
+      "complexity": [
+        "error",
+        5
+      ],
+      "max-params": [
+        "error",
+        5
+      ],
+      "max-depth": [
+        "error",
+        4
+      ],
+      "max-statements": [
+        "error",
+        20
+      ],
+      "max-lines-per-function": [
+        "error",
+        50
+      ],
+      "max-classes-per-file": [
+        "error",
+        1
+      ],
+      "max-nested-callbacks": [
+        "error",
+        3
+      ],
+      "max-statements-per-line": [
         "error",
         {
-          "multiline": true
+          "max": 1
         }
-      ]
+      ],
+      "unicorn/filename-case": [
+        "error",
+        {
+          "cases": {
+            "camelCase": true,
+            "pascalCase": true
+          }
+        }
+      ],
+      "unicorn/expiring-todo-comments": "off"
     }
   },
   "jest": {
@@ -112,23 +180,31 @@
     "collectCoverageFrom": [
       "src/**/*.js"
     ],
-    "coverageReporters": [
-      "text",
-      "json",
-      "json-summary",
-      "lcov"
-    ],
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|cur)$": "<rootDir>/src/lib/mocks/FileMock.js"
     }
   },
   "babel": {
     "presets": [
-      "env",
-      "stage-2"
+      [
+        "@babel/env",
+        {
+          "useBuiltIns": "usage",
+          "corejs": 2,
+          "targets": {
+            "ie": "11"
+          }
+        }
+      ],
+      "@babel/typescript"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties",
+      "@babel/proposal-object-rest-spread"
     ]
   },
   "prettier": {
+    "arrowParens": "always",
     "singleQuote": true,
     "trailingComma": "all",
     "printWidth": 100

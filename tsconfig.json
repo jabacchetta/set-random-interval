@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    // Import non-ES modules as default imports.
+    "esModuleInterop": true,
+
+    // Search under node_modules for non-relative imports.
+    "moduleResolution": "node",
+
+    // Generates corresponding d.ts files.
+    "declaration": true,
+
+    // Only emit ‘.d.ts’ declaration files. Let Babel handle compilation via Webpack.
+    "emitDeclarationOnly": true,
+
+    // Emit declaration files to webpack's build directory.
+    "outDir": "dist/",
+
+    // Modern browser support.
+    "target": "es5",
+
+    /* Additional lint rules */
+
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+
+  "include": ["src"]
+}
